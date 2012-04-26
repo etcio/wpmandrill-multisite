@@ -18,6 +18,7 @@ You can send certain types of attachments (image/*, text/* and application/pdf).
 You can also use your own templates that have been added to your MailChimp account and shared with your Mandrill account.
 
 There are a few levels of integrations between your WordPress installation and this plugin:
+
 1. The simplest option: Install it, configure it, and wpMandrill will start sending your emails through Mandrill.
 1. If you need to fine tune certain emails, you can change any email by creating a filter for the **mandrill_payload** hook.
 1. For further customization, we've exposed a function that allows you to send emails from within your plugins, instead of the regular wp_mail function: **wpMandrill::mail**
