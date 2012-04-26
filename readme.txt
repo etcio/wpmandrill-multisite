@@ -58,3 +58,7 @@ If the sending fails for any reason, the plugin will try to send it again using 
 
 = 1.0 =
 * Public release
+
+= 1.01 =
+* Removing How-To Plugin
+* Adding How-To page
