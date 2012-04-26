@@ -31,7 +31,6 @@ This plugin is currently released as **beta** for early adopter evaluation and f
 1. Upload `wpMandrill` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the _Plugins_ menu in WordPress
 1. Configure plugin in _Settings > Mandrill_
-1. Optionally, you can activate and check the **wpMandrill How-Tos** plugin
 
 == Frequently Asked Questions ==
 

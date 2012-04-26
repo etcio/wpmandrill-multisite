@@ -1,3 +1,6 @@
+.wrap h2 small {
+    font-size: 10px;
+}
 .news_header {
     background: url("../images/rss_icon.gif") no-repeat scroll 0 0 transparent;
     padding-left: 30px;

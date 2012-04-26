@@ -1,61 +1,60 @@
 <?php
-/* 
-Plugin Name: wpMandrill How-Tos
-Description: This plugin show you how to use the different aspects of wpMandrill.
-Author: Mandrill
-Author URI: http://mandrillapp.com/
-Plugin URI: http://connect.mailchimp.com/integrations/wpmandrill
-Version: 1.0
-Text Domain: wpmandrill
- */
 
-MandrillTest::on_load();
-
-class MandrillTest {
-	static $settings;
-
-	static function on_load() {
-        if ( !class_exists('wpMandrill') ) {
-            return;
+class wpMandrill_HowTos {
+    static function show($section) {
+        $section = strtolower($section);
+        if ( !in_array($section, array('intro','auto','regular','filter','direct') ) ) $section = 'auto';
+        
+        $title = '';
+        
+        switch ($section) {
+            case 'intro':
+                break;
+            case 'auto':
+                $title = __('Mandrill: How to tell WordPress to use wpMandrill.', 'wpmandrill');
+                break;
+            case 'regular':
+                $title = __('Mandrill: How to send a regular email.', 'wpmandrill');
+                break;
+            case 'filter':
+                $title = __('Mandrill: How to modify a certain email using the <em>mandrill_payload</em> WordPress filter.', 'wpmandrill');
+                break;
+            case 'direct':
+                $title = __('Mandrill: How to send emails from within your plugins.', 'wpmandrill');
+                break;
         }
         
-		add_action('admin_init', array(__CLASS__, 'adminInit'));
-		add_action('admin_menu', array(__CLASS__, 'adminMenu'));
-		add_filter('contextual_help', array(__CLASS__, 'showContextualHelp'), 10, 3);		
-		add_action('admin_print_footer_scripts', array(__CLASS__,'openContextualHelp'));
-		load_plugin_textdomain('wpmandrill', false, dirname( plugin_basename( __FILE__ ) ).'/lang');
-	}
-
-	/**
-	 * @return boolean
-	 */
-	static function isPluginPage() {
-
-		return ( isset( $_GET['page'] ) && $_GET['page'] == 'wpmandrilltest' );
-	}
-
-	/**
-	 * Sets up options page and sections.
-	 */
-	static function adminInit() {
-
-		add_filter('plugin_action_links',array(__CLASS__,'showPluginActionLinks'), 10,5);
-		// SMTP Settings
-		add_settings_section('wpmandrilltest-auto', __('Mandrill: How to tell WordPress to use wpMandrill.', 'wpmandrill'), '__return_false', 'wpmandrilltest');
-    		add_settings_field('auto', __('&nbsp;', 'wpmandrill'), array(__CLASS__, 'showSectionAuto'), 'wpmandrilltest', 'wpmandrilltest-auto');
-
-		add_settings_section('wpmandrilltest-regular', __('Mandrill: How to send a regular email.', 'wpmandrill'), '__return_false', 'wpmandrilltest');
-    		add_settings_field('regular', __('&nbsp;', 'wpmandrill'), array(__CLASS__, 'showSectionRegular'), 'wpmandrilltest', 'wpmandrilltest-regular');
-
-		add_settings_section('wpmandrilltest-filter', __('Mandrill: How to modify a certain email using the <em>mandrill_payload</em> WordPress filter.', 'wpmandrill'), '__return_false', 'wpmandrilltest');
-    		add_settings_field('filter', __('&nbsp;', 'wpmandrill'), array(__CLASS__, 'showSectionFilter'), 'wpmandrilltest', 'wpmandrilltest-filter');
-
-		add_settings_section('wpmandrilltest-direct', __('Mandrill: How to send emails from within your plugins.', 'wpmandrill'), '__return_false', 'wpmandrilltest');
-    		add_settings_field('direct', __('&nbsp;', 'wpmandrill'), array(__CLASS__, 'showSectionDirect'), 'wpmandrilltest', 'wpmandrilltest-direct');
-	}
-
+        $method = 'showSection' . ucwords($section);
+        
+        $html = self::$method();
+        
+        if ( $title != '' ) {
+            $html = <<<HTML
+            <div class="stuffbox" style="max-width: 90% !important;">
+                <h3>$title</h3>
+                <div style="width:90%; margin-left:auto;margin-right:auto;">
+                    $html
+                </div>
+            </div>
+HTML;
+        }
+        
+        return $html;
+    }
+    
+    static function showSectionIntro() {
+			return  '<p>' . __('The purpose of this how-to is to show you how easy it is to start using the awesome platform that Mandrill offers to handle your transactional emails.', 'wpmandrill-how-tos').'</p>'
+					. '<ol>'
+					. '<li>'. __('Just by setting it up, all the emails sent from your WordPress installation will be sent using the power of Mandrill.', 'wpmandrill') . '</li>'
+					. '<li>'. __('If you want further customization, you can use the <strong>mandrill_payload</strong> filter we\'ve provided.', 'wpmandrill') . '</li>'
+					. '<li>'. __('And if you want an even greater integration between your application and Mandrill, we\'ve created a convenient call to send emails from within your plugins.', 'wpmandrill') . '</li>'
+					. '</ol>'
+					.'<p>' . __('You can learn more about all of these features right from this page.', 'wpmandrill').'</p>';
+    }
+    
     static function showSectionAuto() {
-        echo '
+        
+        return '
     <span class="setting-description">
         <p>'.__('Simply install wpMandrill and configure it to make it handle all the email functions of your WordPress installation.', 'wpmandrill').'</p>
         <p>'.__('Once it has been properly configured, it will replace the regular WordPress emailing processes, so it\'s basically transparent for you and for WordPress.', 'wpmandrill').'</p>
@@ -65,7 +64,7 @@ class MandrillTest {
     }
 
     static function showSectionRegular() {
-        echo '
+        return '
     <span class="setting-description">
         <p>'.__('If you\'re a Plugin Developer, and you need to send a regular email using wpMandrill, you don\'t need to learn anything else. You can use the good ol\' <strong>wp_mail</strong> function, as you would normally do if you were not using this plugin.', 'wpmandrill').'</p>
         <p>'.__('For example:', 'wpmandrill').'</p>
@@ -75,7 +74,7 @@ class MandrillTest {
     }
 
     static function showSectionFilter() {
-        echo '
+        return '
     <span class="setting-description">
         <p>'.__('if you need to fine tune one or some of the emails sent through your WordPress installation, you will need to use the <em>mandrill_payload</em> filter.', 'wpmandrill').'</p>
         <p>'.__('To use it, you must create a function that analyzes the payload that is about to be sent to Mandrill, and modify it based on your requirements. Then you\'ll need to add this function as the callback of the mentioned filter, using the <em>add_filter</em> WordPress call. And finally, insert it into your theme\'s functions.php file or you own plugin\'s file.', 'wpmandrill').'</p>
@@ -119,7 +118,7 @@ class MandrillTest {
     }
 
     static function showSectionDirect() {
-        echo '
+        return '
     <span class="setting-description">
         <p>'.__('If you are a Plugin Developer and you need to create a deep integration between Mandrill and your WordPress installation, wpMandrill will make your life easier.', 'wpmandrill').'</p>
         <p>'.__('We have exposed a simple function that allows you to add tags and specify the template to use, in addition to specifying the To, Subject and Body sections of the email:','wpmandrill').'</p>
@@ -131,93 +130,6 @@ class MandrillTest {
         ';
     }
 
-	/**
-	 * Creates option page's entry in Settings section of menu.
-	 */
-	static function adminMenu() {
-
-		self::$settings = add_options_page( __('Mandrill How-Tos', 'wpmandrill'), __('Mandrill Test', 'wpmandrill'), 'manage_options', 'wpmandrilltest', array(__CLASS__,'showOptionsPage'));
-	}
-	
-	/**
-	 * Generates source of contextual help panel.
-	 */
-	static function showContextualHelp($contextual_help, $screen_id, $screen) {
-
-		if ($screen_id == self::$settings) {
-		    
-			return  '<p>' . __('The purpose of this plugin is to show you how easy it is to start using the awesome platform that Mandrill offers to handle your transactional emails.', 'wpmandrilltest').'</p>'
-					. '<ol>'
-					. '<li>'. __('Just by setting it up, all the emails sent from your WordPress installation will be sent using the power of Mandrill.', 'wpmandrill') . '</li>'
-					. '<li>'. __('If you want further customization, you can use the <strong>mandrill_payload</strong> filter we\'ve provided.', 'wpmandrill') . '</li>'
-					. '<li>'. __('And if you want an even greater integration between your application and Mandrill, we\'ve created a convenient call to send emails from within your plugins.', 'wpmandrill') . '</li>'
-					. '</ol>'
-					.'<p>' . __('You can learn more about all of these features right from this page.', 'wpmandrill').'</p>'
-					
-					;
-		}
-
-		return $contextual_help;
-	}
-
-	/**
-	 * Adds link to settings page in list of plugins
-	 */
-	static function showPluginActionLinks($actions, $plugin_file) {
-
-		static $plugin;
-
-		if (!isset($plugin))
-			$plugin = plugin_basename(__FILE__);
-
-		if ($plugin == $plugin_file) {
-
-			$settings = array('settings' => '<a href="options-general.php?page=wpmandrilltest">' . __('Settings', 'wpmandrill') . '</a>');
-			$actions = array_merge($settings, $actions);
-		}
-
-		return $actions;
-	}
-
-	/**
-	 * Generates source of options page.
-	 */
-	static function showOptionsPage() {
-
-		if (!current_user_can('manage_options'))
-			wp_die( __('You do not have sufficient permissions to access this page.','wpmandrill') );
-
-		?>
-<div class="wrap">
-    <div class="icon32" style="background: url('<?php echo plugins_url('images/mandrill-head-icon.png',__FILE__); ?>');"><br /></div>
-    <div style="float: left;width: 70%;">
-        <h2><?php _e('Mandrill How-tos', 'wpmandrill'); ?></h2>
-
-        <form method="post" action="options.php">
-        <?php settings_fields('wpmandrilltest'); ?>
-        <?php do_settings_sections('wpmandrilltest'); ?>
-        </form>
-    </div>
-</div>
-		<?php
-	}
-	
-	/**
-	 * Opens contextual help section.
-	 */
-	static function openContextualHelp() {
-
-		if ( !self::isPluginPage() )
-			return;
-
-		?>
-<script type="text/javascript">
-jQuery(document).bind( 'ready', function() {
-    jQuery('a#contextual-help-link').trigger('click');
-});
-</script>
-		<?php
-	}
 }
 
 ?>
