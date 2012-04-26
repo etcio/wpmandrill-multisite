@@ -506,13 +506,13 @@ jQuery(document).bind( 'ready', function() {
 	    
 	    $domains = self::$mandrill->senders_domains();
 	    if ( is_wp_error($domains) || empty($domains) ) return false;
-	    
+	    /*
 	    foreach ( $domains as $index => $domain ) {
 	        if ( !$domains[$index]['is_enabled'] ) {
 	            unset($domains[$index]);
 		    }
         }
-        
+        */
 	    return array_values($domains);
     }
 
