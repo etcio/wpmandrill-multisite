@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpMandrill 1.0 rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-26 14:42-0500\n"
+"POT-Creation-Date: 2012-04-26 16:25-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Will Castillo <will@mailchimp.com>\n"
 "Language-Team: MailChimp <will@mailchimp.com>\n"
@@ -109,7 +109,7 @@ msgid "But if you need Mandrill Powers, we have included a full-featured PHP cla
 msgstr "Pero si necesitas Poderes de Mandrill, hemos incluido una clase PHP con todas las llamadas de la API de Mandrill incluidas, llamada Mandrill. Echale un vistazo en <em>/wp-content/plugin/wpmandrill/lib/mandrill.class.php</em>."
 
 #: how-tos.php:127
-msgid "To use it, just instanciate an object passing your API key, and make the calls:"
+msgid "To use it, just instantiate an object passing your API key, and make the calls:"
 msgstr "Para usarla, simplemente instancia un objeto pasándole una Clave API y haz tus llamadas:"
 
 #: how-tos.php:128
