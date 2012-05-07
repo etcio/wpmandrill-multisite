@@ -854,17 +854,25 @@ jQuery(document).bind( 'ready', function() {
         
         foreach ( $stats['stats']['hourly']['senders'] as $data_by_sender ) {
             foreach ( $data_by_sender as $data ) {
-                
-                $hour = '"' . date('H',strtotime($data['time'])+$timeOffset) . '"';
-                $day  = '"' . date('m/d', strtotime($data['time'])+$timeOffset) . '"';
-                
-                $graph_data['hourly']['delivered'][$hour] += $data['sent'] - $data['hard_bounces'] - $data['soft_bounces']  - $data['rejects'];
-                $graph_data['hourly']['opens'][$hour]     += $data['unique_opens'];
-                $graph_data['hourly']['clicks'][$hour]    += $data['unique_clicks'];
+                if ( isset($data['time']) ) {
+                    $hour = '"' . date('H',strtotime($data['time'])+$timeOffset) . '"';
+                    $day  = '"' . date('m/d', strtotime($data['time'])+$timeOffset) . '"';
+                    
+                    if ( !isset($graph_data['hourly']['delivered'][$hour]) )    $graph_data['hourly']['delivered'][$hour]   = 0;
+                    if ( !isset($graph_data['hourly']['opens'][$hour]) )        $graph_data['hourly']['opens'][$hour]       = 0;
+                    if ( !isset($graph_data['hourly']['clicks'][$hour]) )       $graph_data['hourly']['clicks'][$hour]      = 0;
+                    if ( !isset($graph_data['daily']['delivered'][$hour]) )     $graph_data['daily']['delivered'][$hour]   = 0;
+                    if ( !isset($graph_data['daily']['opens'][$hour]) )         $graph_data['daily']['opens'][$hour]       = 0;
+                    if ( !isset($graph_data['daily']['clicks'][$hour]) )        $graph_data['daily']['clicks'][$hour]      = 0;
+                    
+                    $graph_data['hourly']['delivered'][$hour] += $data['sent'] - $data['hard_bounces'] - $data['soft_bounces']  - $data['rejects'];
+                    $graph_data['hourly']['opens'][$hour]     += $data['unique_opens'];
+                    $graph_data['hourly']['clicks'][$hour]    += $data['unique_clicks'];
 
-                $graph_data['daily']['delivered'][$day] += $data['sent'] - $data['hard_bounces'] - $data['soft_bounces']  - $data['rejects'];
-                $graph_data['daily']['opens'][$day]     += $data['unique_opens'];
-                $graph_data['daily']['clicks'][$day]    += $data['unique_clicks'];
+                    $graph_data['daily']['delivered'][$day] += $data['sent'] - $data['hard_bounces'] - $data['soft_bounces']  - $data['rejects'];
+                    $graph_data['daily']['opens'][$day]     += $data['unique_opens'];
+                    $graph_data['daily']['clicks'][$day]    += $data['unique_clicks'];
+                }
             }
         }
 
