@@ -67,3 +67,7 @@ If the sending fails for any reason, the plugin will try to send it again using 
 = 1.02 =
 * Fixed: Dashboard widget title was displaying incorrectly when a filter was defined.
 
+= 1.03 =
+* Fixed: Test email were using an old function.
+* Fixed: Some data type checking to avoid PHP warnings.
+
