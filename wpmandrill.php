@@ -606,6 +606,10 @@ jQuery(document).bind( 'ready', function() {
                     $result[$email['status']]++;
                 }
                 
+                if ( !isset($result['sent']) ) $result['sent'] = 0;
+                if ( !isset($result['queue']) ) $result['queue'] = 0;
+                if ( !isset($result['rejected']) ) $result['rejected'] = 0;
+                
 				    add_settings_error('email-to', 'email-to', sprintf(__('Test executed: %d emails sent, %d emails queued and %d emails rejected', self::WPDOMAIN), $result['sent'],$result['queue'],$result['rejected']), $result['sent'] ? 'updated' : 'error' );
             }
 		}
