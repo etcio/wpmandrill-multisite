@@ -56,9 +56,7 @@ class Mandrill {
 				break;
 
 			default:
-
-				return new Mandrill_Exception('Unknown request type');
-				break;
+				throw new Mandrill_Exception('Unknown request type');
 		}
 
 		$response_code  = $response['header']['http_code'];
@@ -85,7 +83,7 @@ class Mandrill {
 
 			$message = isset( $body['message'] ) ? $body['message'] : '' ;
 
-			return new Mandrill_Exception($message . ' - ' . $body, $response_code);
+			throw new Mandrill_Exception($message . ' - ' . $body, $response_code);
 		}
 	}
 

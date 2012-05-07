@@ -71,3 +71,7 @@ If the sending fails for any reason, the plugin will try to send it again using 
 * Fixed: Test email were using an old function.
 * Fixed: Some data type checking to avoid PHP warnings.
 
+= 1.05 =
+* Fixed: Contextual help tab getting open in all admin pages when plugin was not configured correctly.
+* Fixed: Some references to verified domains. All domains are now verified in Mandrill.
+* Fixed: Mandrill Class was returning Exceptions in two places (not throwing them).
