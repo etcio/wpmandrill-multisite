@@ -66,8 +66,13 @@ $lit['clickrate']   = __('Click Rate',self::WPDOMAIN);
         </optgroup>
         <optgroup label="<?php _e('Tag:', wpMandrill::WPDOMAIN); ?>">
             <?php 
-                foreach ( array_keys($stats['stats']['hourly']['tags']['detailed_stats']) as $tag) {
-                    echo '<option value="'.$tag.'">'.$tag.'</option>';
+                if ( isset($stats['stats']['hourly']['tags']['detailed_stats']) 
+                     && is_array($stats['stats']['hourly']['tags']['detailed_stats']) ) {
+                     
+                    foreach ( array_keys($stats['stats']['hourly']['tags']['detailed_stats']) as $tag) {
+                        echo '<option value="'.$tag.'">'.$tag.'</option>';
+                    }
+                    
                 }
             ?>            
         </optgroup>        
