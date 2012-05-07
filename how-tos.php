@@ -124,7 +124,7 @@ HTML;
         <p>'.__('We have exposed a simple function that allows you to add tags and specify the template to use, in addition to specifying the To, Subject and Body sections of the email:','wpmandrill').'</p>
         <p><blockquote><pre>'.__('&lt;?php wpMandrill::mail($to, $subject, $html, $headers = \'\', $attachments = array(), $tags = array(), $from_name = \'\', $from_email = \'\', $template_name = \'\'); ?&gt;', 'wpmandrill').'</pre></blockquote></p>
         <p>'.__('But if you need Mandrill Powers, we have included a full-featured PHP class called Mandrill. It has every API call defined in Mandrill\'s API. Check it out at <em>/wp-content/plugin/wpmandrill/lib/mandrill.class.php</em>.', 'wpmandrill').'</p>
-        <p>'.__('To use it, just instanciate an object passing your API key, and make the calls:', 'wpmandrill').'</p>
+        <p>'.__('To use it, just instantiate an object passing your API key, and make the calls:', 'wpmandrill').'</p>
         <p><blockquote><pre>'.__('&lt;?php $mandrill = Mandrill($my_api_key); echo $mandrill->ping(); ?&gt;', 'wpmandrill').'</pre></blockquote></p>
     </span>
         ';
