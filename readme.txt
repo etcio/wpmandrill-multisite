@@ -75,3 +75,6 @@ If the sending fails for any reason, the plugin will try to send it again using 
 * Fixed: Contextual help tab getting open in all admin pages when plugin was not configured correctly.
 * Fixed: Some references to verified domains. All domains are now verified in Mandrill.
 * Fixed: Mandrill Class was returning Exceptions in two places (not throwing them).
+
+= 1.06 =
+* Fixed: Some installations were reporting valid API keys as invalid due to a restrictive server configuration regarding Time-Out.

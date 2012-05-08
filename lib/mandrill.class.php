@@ -385,7 +385,7 @@ class Mandrill {
 
     function http_request($url, $fields = array(), $method = 'POST') {
         if( !ini_get('safe_mode') ){
-            set_time_limit(60 * 60);
+            set_time_limit(2 * 60);
         }
 
         if ( !in_array( $method, array('POST','GET') ) ) $method = 'POST';
@@ -401,7 +401,7 @@ class Mandrill {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60 * 60 * 1000);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2 * 60 * 1000);
             
             $response   = curl_exec($ch);
             $info       = curl_getinfo($ch);
