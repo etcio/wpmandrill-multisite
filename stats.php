@@ -355,12 +355,9 @@ jQuery(function () {
 </script>
     <div id="hourly_report_canvas"></div><br/><br/>
     <div id="daily_report_canvas"></div>
-    <h3><a href="http://mandrillapp.com/" target="_target"><?php _e('For more detailed statistics, please visit your Mandrill Dashboard',self::WPDOMAIN); ?></a>.
-<?php  //  echo str_replace('    ','&nbsp;&nbsp;&nbsp;&nbsp;',nl2br(print_r($graph_data,true))); ?></h3>
+    <h3><a href="http://mandrillapp.com/" target="_target"><?php _e('For more detailed statistics, please visit your Mandrill Dashboard',self::WPDOMAIN); ?></a>.</h3>
 </div>
 		<?php
-				
-//		echo "<div style=\"display:none;\">\n".print_r($stats,true) . "\n</div>";
 		wpMandrill::$stats = $stats;
 
 ?>
