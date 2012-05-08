@@ -66,8 +66,13 @@ $lit['clickrate']   = __('Click Rate',self::WPDOMAIN);
         </optgroup>
         <optgroup label="<?php _e('Tag:', wpMandrill::WPDOMAIN); ?>">
             <?php 
-                foreach ( array_keys($stats['stats']['hourly']['tags']['detailed_stats']) as $tag) {
-                    echo '<option value="'.$tag.'">'.$tag.'</option>';
+                if ( isset($stats['stats']['hourly']['tags']['detailed_stats']) 
+                     && is_array($stats['stats']['hourly']['tags']['detailed_stats']) ) {
+                     
+                    foreach ( array_keys($stats['stats']['hourly']['tags']['detailed_stats']) as $tag) {
+                        echo '<option value="'.$tag.'">'.$tag.'</option>';
+                    }
+                    
                 }
             ?>            
         </optgroup>        
@@ -350,12 +355,9 @@ jQuery(function () {
 </script>
     <div id="hourly_report_canvas"></div><br/><br/>
     <div id="daily_report_canvas"></div>
-    <h3><a href="http://mandrillapp.com/" target="_target"><?php _e('For more detailed statistics, please visit your Mandrill Dashboard',self::WPDOMAIN); ?></a>.
-<?php  //  echo str_replace('    ','&nbsp;&nbsp;&nbsp;&nbsp;',nl2br(print_r($graph_data,true))); ?></h3>
+    <h3><a href="http://mandrillapp.com/" target="_target"><?php _e('For more detailed statistics, please visit your Mandrill Dashboard',self::WPDOMAIN); ?></a>.</h3>
 </div>
 		<?php
-				
-//		echo "<div style=\"display:none;\">\n".print_r($stats,true) . "\n</div>";
 		wpMandrill::$stats = $stats;
 
 ?>

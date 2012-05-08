@@ -26,6 +26,8 @@ There are a few levels of integrations between your WordPress installation and t
 
 This plugin is currently released as **beta** for early adopter evaluation and finalizing of the initial feature set.
 
+Spanish translation available.
+
 == Installation ==
 
 1. Upload `wpMandrill` to the `/wp-content/plugins/` directory
@@ -40,7 +42,7 @@ In order to use this plugin, you have to provide one of your Mandrill API keys. 
 
 = Do I need a MailChimp account? =
 
-Right now, Mandrill is officially in open beta for Mailchimp users. So, yes, you need a MailChimp account in order to create a Mandrill account.
+Not anymore! Mandrill is now officially in open beta to anyone so go get a [new account now!](http://mandrillapp.com/).
 
 = Is all email routed through Mandrill? =
 
@@ -60,5 +62,28 @@ If the sending fails for any reason, the plugin will try to send it again using 
 * Public release
 
 = 1.01 =
-* Removing How-To Plugin
-* Adding How-To page
+* REMOVED: How-To Plugin
+* ADDED: How-To page
+
+= 1.02 =
+* FIXED: Dashboard widget title was displaying incorrectly when a filter was defined.
+
+= 1.03 =
+* FIXED: Test email were using an old function.
+* FIXED: Some data type checking to avoid PHP warnings.
+
+= 1.05 =
+* FIXED: Contextual help tab getting open in all admin pages when plugin was not configured correctly.
+* FIXED: Some references to verified domains. All domains are now verified in Mandrill.
+* FIXED: Mandrill Class was returning Exceptions in two places (not throwing them).
+
+= 1.06 =
+* FIXED: Some installations were reporting valid API keys as invalid due to a restrictive server configuration regarding Time-Out.
+
+= 1.07 =
+* FIXED: Removing notices in the dashboard widget when there's no open or click data in the last 7 days.
+* FIXED: No having general tags defined were causing a validation error. ** Thanks Max! **
+* FIXED: Daily stats showing some hourly stats.
+* UPDATED: Spanish translation updated.
+* FIXED: Speeding dashboard widget results.
+
