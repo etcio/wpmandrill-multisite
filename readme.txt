@@ -90,3 +90,7 @@ If the sending fails for any reason, the plugin will try to send it again using 
 = 1.08 =
 * FIXED: Wrong references to self:: in wp_mail introduce in 1.04 :(
 
+= 1.09 =
+* ADDED: Reply-To Setting
+* ADDED: Replacing line feed by <br> setting.
+
