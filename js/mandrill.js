@@ -78,7 +78,7 @@ function redrawDashboardWidget() {
                 eval(data);
             },  
         error: function(MLHttpRequest, textStatus, errorThrown){  
-                alert(errorThrown);
+                alert(textStatus + ' ' + errorThrown);
                 jQuery('#mandrill_widget div#filtered_recent').html('');
             }  
     });

@@ -9,6 +9,10 @@ class Mandrill {
     
     var $api;
     
+    // PHP 4.0
+    function Mandrill() {$this->__construct();}
+    
+    // PHP 5.0
     function __construct($api) {
         if ( empty($api) ) throw new Mandrill_Exception('Invalid API key');
         try {
@@ -56,9 +60,7 @@ class Mandrill {
 				break;
 
 			default:
-
-				return new Mandrill_Exception('Unknown request type');
-				break;
+				throw new Mandrill_Exception('Unknown request type');
 		}
 
 		$response_code  = $response['header']['http_code'];
@@ -85,7 +87,7 @@ class Mandrill {
 
 			$message = isset( $body['message'] ) ? $body['message'] : '' ;
 
-			return new Mandrill_Exception($message . ' - ' . $body, $response_code);
+			throw new Mandrill_Exception($message . ' - ' . $body, $response_code);
 		}
 	}
 
@@ -387,23 +389,28 @@ class Mandrill {
 
     function http_request($url, $fields = array(), $method = 'POST') {
         if( !ini_get('safe_mode') ){
-            set_time_limit(60 * 60);
+            set_time_limit(2 * 60);
         }
 
         if ( !in_array( $method, array('POST','GET') ) ) $method = 'POST';
         if ( !isset( $fields['key']) ) $fields['key'] = $this->api;
+
+        $fields = is_array($fields) ? http_build_query($fields) : $fields;
+		if ( defined('WP_DEBUG') && WP_DEBUG !== false ) {
+			error_log( "\nMandrill::http_request: URL: $url - Fields: $fields\n" );
+		}
 
         $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             
             curl_setopt($ch, CURLOPT_POST, $method == 'POST');
             
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($fields) ? http_build_query($fields) : $fields);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
             
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60 * 60 * 1000);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2 * 60 * 1000);
             
             $response   = curl_exec($ch);
             $info       = curl_getinfo($ch);
@@ -480,4 +487,5 @@ class Mandrill {
               );
     }
 }
+
 ?>
