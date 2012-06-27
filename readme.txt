@@ -67,13 +67,34 @@ wpMandrill is currently localized in the following languages:
 
 * Spanish (es_ES)
 
+== Known Issues ==
+
+* Daily statistics will show data for the first 20 senders (emails) registered.
+* Daily statistics will show data for the first 40 tags registered.
+
+If your account has more than 20 senders registered or more than 40 tags used, the detailed daily statisticas might show incompleted data.
+
 == Screenshots ==
 
 1. Settings screen
 2. Statistics
 3. Dashboard widget
+4. Dashboard widget Settings
 
 == Changelog ==
+
+= 1.12 =
+* FIXED: Issue with the CSS declaration of the RSS icon displayed on the settings page. ** Thanks Nicholas Ciske! **
+* FIXED: Highcharts' Exporting module not loaded for dashboard widget
+* FIXED: Removing unnecessary pings to MandrillApp.com and instanciating the API client on demand ** Thanks Per Wiklander! **
+
+= 1.11 =
+* ADDED: screenshot-4.jpg
+* FIXED: Emails delivered % in Mandrill stats
+* ADDED: Limiting the numbers of senders that the Mandrill stats reports.
+* FIXED: Limiting the numbers of days to 30 in Daily Sending Volume graph in Mandrill stats reports.
+* ADDED: Visual notification in the dashboard widget while loading.
+* ADDED: Support for sockets when CURL is not present.
 
 = 1.10 =
 * ADDED: Blank .po file for other translations :)
@@ -90,7 +111,7 @@ wpMandrill is currently localized in the following languages:
 
 = 1.07 =
 * FIXED: Removing notices in the dashboard widget when there's no open or click data in the last 7 days.
-* FIXED: No having general tags defined were causing a validation error. ** Thanks Max! **
+* FIXED: No having general tags defined were causing a validation error. ** Thanks Max Rice! **
 * FIXED: Daily stats showing some hourly stats.
 * UPDATED: Spanish translation updated.
 * FIXED: Speeding dashboard widget results.
