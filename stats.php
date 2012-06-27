@@ -1,4 +1,5 @@
 <?php if (!current_user_can('manage_options')) wp_die( __('You do not have sufficient permissions to access this page.') ); ?>
+<?php wpMandrill::getConnected(); ?>
 <div class="wrap">
 <div class="icon32" style="background: url('<?php echo plugins_url('images/mandrill-head-icon.png',__FILE__); ?>');"><br /></div>
 <h2><?php _e('Mandrill Service Report', wpMandrill::WPDOMAIN); ?></h2><?php
