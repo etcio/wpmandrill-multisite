@@ -10,7 +10,7 @@ class Mandrill {
     var $output;
     
     // PHP 4.0
-    function Mandrill() { $this->__construct(); }
+    function Mandrill($api) { $this->__construct($api); }
     
     // PHP 5.0
     function __construct($api) {
@@ -530,7 +530,7 @@ class Mandrill {
             if ( !function_exists('get_magic_quotes') ) {
                 function get_magic_quotes() { return false; }
             }
-            if ( !function_exists('st_magic_quotes') ) {
+            if ( !function_exists('set_magic_quotes') ) {
                 function set_magic_quotes($value) { return true;}
             }
             

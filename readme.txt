@@ -83,6 +83,13 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.20 =
+* ADDED: Mandrill's Privacy Policy and Terms of Use
+* FIXED: Sending more than one attachment was failing
+* FIXED: Doing a Ping call only when displaying the API Key on the settings page
+* ADDED: Support for Global Merge Vars, Per-Recipient Merge Vars, Google Analytics, and Meta Data in wpMandrill::mail()
+* FIXED: Logging error messages even if WP_DEBUG is false.
+
 = 1.12 =
 * FIXED: Issue with the CSS declaration of the RSS icon displayed on the settings page. ** Thanks Nicholas Ciske! **
 * FIXED: Highcharts' Exporting module not loaded for dashboard widget
