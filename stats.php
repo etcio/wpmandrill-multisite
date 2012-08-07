@@ -1,4 +1,5 @@
 <?php if (!current_user_can('manage_options')) wp_die( __('You do not have sufficient permissions to access this page.') ); ?>
+<?php wpMandrill::getConnected(); ?>
 <div class="wrap">
 <div class="icon32" style="background: url('<?php echo plugins_url('images/mandrill-head-icon.png',__FILE__); ?>');"><br /></div>
 <h2><?php _e('Mandrill Service Report', wpMandrill::WPDOMAIN); ?></h2><?php
@@ -40,7 +41,7 @@ $lit['clickrate']   = __('Click Rate',self::WPDOMAIN);
         <div class="stat_box"><?php _e('Reputation:', wpMandrill::WPDOMAIN); ?><br/><span><?=$stats['general']['reputation']?>%</span></div>
         <div class="stat_box"><?php _e('Quota:', wpMandrill::WPDOMAIN); ?><br/><span><?=$stats['general']['hourly_quota']?> <?php _e('sends/hour', wpMandrill::WPDOMAIN); ?></span></div>
         <div class="stat_box"><?php _e('Emails sent:', wpMandrill::WPDOMAIN); ?><br/><span><?=$stats['general']['stats']['sent']?></span></div>
-        <div class="stat_box"><?php _e('Emails delivered:', wpMandrill::WPDOMAIN); ?><br/><span><?=$delivered?> (<?=$delivered*100/($stats['general']['stats']['sent']?$stats['general']['stats']['sent']:1)?>%)</span></div>
+        <div class="stat_box"><?php _e('Emails delivered:', wpMandrill::WPDOMAIN); ?><br/><span><?=$delivered?> (<?=number_format(  $delivered*100 / ( ($stats['general']['stats']['sent'])?$stats['general']['stats']['sent']:1 ) ,2); ?>%)</span></div>
         <div class="stat_box"><?php _e('Tracked opens:', wpMandrill::WPDOMAIN); ?><br/><span><?=$stats['general']['stats']['opens']?></span></div>
         <div class="stat_box"><?php _e('Tracked clicks:', wpMandrill::WPDOMAIN); ?><br/><span><?=$stats['general']['stats']['clicks']?></span></div>
         <?php

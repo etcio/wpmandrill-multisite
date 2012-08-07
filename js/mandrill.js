@@ -43,7 +43,7 @@ function showStats() {
     var filter = jQuery("#filter option:selected").val();
     var display = jQuery("#display option:selected").val();
     jQuery('#loading_data').css('display','block');
-    
+
     jQuery.ajax({  
         type: 'POST',  
         url: ajaxurl,  
