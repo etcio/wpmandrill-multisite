@@ -94,14 +94,9 @@ class Mandrill {
 		}		
 
 		if( 200 == $response_code ) {
-
 			return $body;
-		}
-		else {
-
-			$message = isset( $body['message'] ) ? $body['message'] : '' ;
-
-			throw new Mandrill_Exception($message . ' - ' . $body, $response_code);
+		} else {
+			throw new Mandrill_Exception( "HTTP Code $response_code: $url", $response_code);
 		}
 	}
 
@@ -580,6 +575,8 @@ class Mandrill {
                   'image/',
                   'text/',
                   'application/pdf',
+        		  'audio/',
+        		  'video/'
               );
     }
 }
