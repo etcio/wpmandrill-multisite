@@ -414,11 +414,7 @@ class Mandrill {
         if ($sep_changed) {
             ini_set("arg_separator.output", $orig_sep);
         }
-
-		if ( defined('WP_DEBUG') && WP_DEBUG !== false ) {
-			error_log( "\nMandrill::http_request: URL: $url - Fields: $fields\n" );
-		}
-
+        
         if( function_exists('curl_init') && function_exists('curl_exec') ) {
         
             if( !ini_get('safe_mode') ){

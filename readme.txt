@@ -84,6 +84,10 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.22 =
+* UPDATED: Replacing Highcharts in favor of Flot
+* ADD: Cron job to fetch stats 
+
 = 1.21 =
 * FIXED: Logging wrong error messages when sending emails with no attachments
 * FIXED: Attachments that Mandrill doesn't support were discarded instead of sending the email (with attachment) through the native wp_mail function.

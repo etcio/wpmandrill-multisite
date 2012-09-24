@@ -50,7 +50,7 @@ function showStats() {
         data: {  
                 action: 'get_mandrill_stats',
                 filter: filter, 
-                display: display, 
+                display: display
             },  
         success: function(data, textStatus, XMLHttpRequest){  
                 jQuery('#loading_data').css('display','none');
@@ -72,7 +72,7 @@ function redrawDashboardWidget() {
         url: ajaxurl,  
         data: {  
                 action: 'get_dashboard_widget_stats',
-                ajax: true, 
+                ajax: true
             },  
         success: function(data, textStatus, XMLHttpRequest){  
                 eval(data);
