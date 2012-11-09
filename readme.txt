@@ -84,6 +84,9 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.23 =
+* FIXED: JS Alerts on wrong places...
+
 = 1.22 =
 * UPDATED: Replacing Highcharts in favor of Flot
 * ADD: Cron job to fetch stats 
