@@ -3,7 +3,7 @@
 class wpMandrill_HowTos {
     static function show($section) {
         $section = strtolower($section);
-        if ( !in_array($section, array('intro','auto','regular','filter','direct') ) ) $section = 'auto';
+        if ( !in_array($section, array('intro','auto','regular','filter','direct','regions') ) ) $section = 'auto';
         
         $title = '';
         
@@ -21,6 +21,9 @@ class wpMandrill_HowTos {
                 break;
             case 'direct':
                 $title = __('Mandrill: How to send emails from within your plugins.', 'wpmandrill');
+                break;
+            case 'regions':
+                $title = __('Mandrill: How to use multiple editable regions in your template.', 'wpmandrill');
                 break;
         }
         
@@ -73,6 +76,16 @@ HTML;
         ';
     }
 
+    static function showSectionRegions() {
+        return '
+    <span class="setting-description">
+        <p>'.__('By default, wpMandrill uses only one editable section of your templates: <em>main</em> so its use is transparent for the you.', 'wpmandrill').'</p>
+        <p>'.__('If you need to use more than one, <em>main</em> included, you need to provided an array with the content to use for each editable region involved. This array should be supply in the field "html" of the payload.', 'wpmandrill').'</p>
+        <p>'.__('This array has the same structure of the parameter <em>template_content</em> of the API call <a href="https://mandrillapp.com/api/docs/messages.html#method=send-template" target="_blank">send-template</a>:', 'wpmandrill').'</p>
+        <p>'.__('$message["html"] = array( array("name" => region_name_1", "content" => "My awesome content for Region 1"), ... , array( "name" => region_name_2", "content" => "My awesome content for Region 2") )', 'wpmandrill').'</p>
+        ';
+    }
+    
     static function showSectionFilter() {
         return '
     <span class="setting-description">
