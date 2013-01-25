@@ -43,7 +43,7 @@ In order to use this plugin, you have to provide one of your Mandrill API keys. 
 
 = Do I need a MailChimp account? =
 
-Not anymore! Mandrill is now officially in open beta to anyone so go get a [new account now!](http://mandrillapp.com/).
+Not anymore!
 
 = Is all email routed through Mandrill? =
 
@@ -58,6 +58,14 @@ In version 1.09, we added a setting that allows you to tell the plugin if you wa
 = Is there any way to check what's going on? =
 
 If you set the WP_DEBUG constant (defined in your wp-config.php file) to true, you'll see some messages added by the plugin in key parts of the process.
+
+= I am getting an Invalid API Key message and I'm sure my API is valid!
+
+Please verify the following:
+
+1. That your API key is active (this can be viewed on the SMTP & API Credentials page in your Mandrill account);
+1. That your web server has either cURL installed or is able to use fsock*() functions (if you don't know what this means, you may want to check with your hosting provider for more details);
+1. That the domain name you're using above is listed in the Sending Domains for your Mandrill account.
 
 == Request ==
 
@@ -84,8 +92,16 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.24 =
+* UPDATED: Dashboard widget shown only to those capable of manage_options
+* ADDED: CURL calls doesn't verify SSL certificates anymore. ** Thanks Bruno Braga! ** 
+* ADDED: Adding support for editable regions. ** Thanks dennissmolek **
+* FIXED: Using a literal as the textdomain instead of a constant. ** Thanks Joost! **
+* FIXED: Cleaning some unused variables. ** Thanks Joost! **
+* FIXED: Removed checking of sender domain at send time.
+
 = 1.23 =
-* FIXED: JS Alerts on wrong places...
+* FIXED: JS Alerts in wrong places...
 
 = 1.22 =
 * UPDATED: Replacing Highcharts in favor of Flot

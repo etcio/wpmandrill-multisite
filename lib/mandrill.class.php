@@ -428,6 +428,9 @@ class Mandrill {
                 
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	// @Bruno Braga:
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);	//		Thanks for the hack!
+				
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
