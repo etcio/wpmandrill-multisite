@@ -92,6 +92,9 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.25 =
+* FIXED: Undefined WPDOMAIN constant in stats.php
+
 = 1.24 =
 * UPDATED: Dashboard widget shown only to those capable of manage_options
 * ADDED: CURL calls doesn't verify SSL certificates anymore. ** Thanks Bruno Braga! ** 
