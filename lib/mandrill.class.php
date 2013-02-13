@@ -560,13 +560,8 @@ class Mandrill {
     }
     
     static function isValidContentType($ct) {
-        $valids = self::getValidContentTypes();
-        
-        foreach ( $valids as $vct ) {
-            if ( strpos($ct, $vct) !== false )  return true;
-        }
-
-        return false;
+        // Now Mandrill accepts any content type. 
+        return true;
     }
     
     static function getValidContentTypes() {

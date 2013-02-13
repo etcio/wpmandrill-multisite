@@ -92,6 +92,10 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 
+= 1.26 =
+* UPDATED: Now Mandrill accepts any content type and so does wpMandrill.
+* FIXED: Queued messages were triggering the native wp_mail function. ** Thanks Scott Connerly! ** 
+
 = 1.25 =
 * FIXED: Undefined WPDOMAIN constant in stats.php
 
