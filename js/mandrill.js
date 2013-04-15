@@ -43,14 +43,14 @@ function showStats() {
     var filter = jQuery("#filter option:selected").val();
     var display = jQuery("#display option:selected").val();
     jQuery('#loading_data').css('display','block');
-    
+
     jQuery.ajax({  
         type: 'POST',  
         url: ajaxurl,  
         data: {  
                 action: 'get_mandrill_stats',
                 filter: filter, 
-                display: display, 
+                display: display
             },  
         success: function(data, textStatus, XMLHttpRequest){  
                 jQuery('#loading_data').css('display','none');
@@ -58,7 +58,6 @@ function showStats() {
             },  
         error: function(MLHttpRequest, textStatus, errorThrown){  
                 jQuery('#loading_data').css('display','none');
-                alert(errorThrown);  
             }  
     });
     
@@ -72,13 +71,12 @@ function redrawDashboardWidget() {
         url: ajaxurl,  
         data: {  
                 action: 'get_dashboard_widget_stats',
-                ajax: true, 
+                ajax: true
             },  
         success: function(data, textStatus, XMLHttpRequest){  
                 eval(data);
             },  
-        error: function(MLHttpRequest, textStatus, errorThrown){  
-                alert(textStatus + ' ' + errorThrown);
+        error: function(MLHttpRequest, textStatus, errorThrown){ 
                 jQuery('#mandrill_widget div#filtered_recent').html('');
             }  
     });
