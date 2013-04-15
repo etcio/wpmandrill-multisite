@@ -38,12 +38,12 @@ $lit['clickrate']   = __('Click Rate','wpmandrill');
     <h3><?php echo sprintf(__('All-time statistics since %s: ', 'wpmandrill'),date('m/d/Y',strtotime($stats['general']['created_at']))); ?></h3>
     
     <div id="alltime_report_canvas">
-        <div class="stat_box"><?php _e('Reputation:', 'wpmandrill'); ?><br/><span><?=$stats['general']['reputation']?>%</span></div>
-        <div class="stat_box"><?php _e('Quota:', 'wpmandrill'); ?><br/><span><?=$stats['general']['hourly_quota']?> <?php _e('sends/hour', 'wpmandrill'); ?></span></div>
-        <div class="stat_box"><?php _e('Emails sent:', 'wpmandrill'); ?><br/><span><?=$stats['general']['stats']['sent']?></span></div>
-        <div class="stat_box"><?php _e('Emails delivered:', 'wpmandrill'); ?><br/><span><?=$delivered?> (<?=number_format(  $delivered*100 / ( ($stats['general']['stats']['sent'])?$stats['general']['stats']['sent']:1 ) ,2); ?>%)</span></div>
-        <div class="stat_box"><?php _e('Tracked opens:', 'wpmandrill'); ?><br/><span><?=$stats['general']['stats']['opens']?></span></div>
-        <div class="stat_box"><?php _e('Tracked clicks:', 'wpmandrill'); ?><br/><span><?=$stats['general']['stats']['clicks']?></span></div>
+        <div class="stat_box"><?php _e('Reputation:', 'wpmandrill'); ?><br/><span><?php echo $stats['general']['reputation']?>%</span></div>
+        <div class="stat_box"><?php _e('Quota:', 'wpmandrill'); ?><br/><span><?php echo $stats['general']['hourly_quota']?> <?php _e('sends/hour', 'wpmandrill'); ?></span></div>
+        <div class="stat_box"><?php _e('Emails sent:', 'wpmandrill'); ?><br/><span><?php echo $stats['general']['stats']['sent']?></span></div>
+        <div class="stat_box"><?php _e('Emails delivered:', 'wpmandrill'); ?><br/><span><?php echo $delivered?> (<?php echo number_format(  $delivered*100 / ( ($stats['general']['stats']['sent'])?$stats['general']['stats']['sent']:1 ) ,2); ?>%)</span></div>
+        <div class="stat_box"><?php _e('Tracked opens:', 'wpmandrill'); ?><br/><span><?php echo $stats['general']['stats']['opens']?></span></div>
+        <div class="stat_box"><?php _e('Tracked clicks:', 'wpmandrill'); ?><br/><span><?php echo $stats['general']['stats']['clicks']?></span></div>
         <?php
             if ( $stats['general']['stats']['rejects'] ) echo '<div class="stat_box warning">'.__('Rejects:', 'wpmandrill').'<br/><span>'.$stats['general']['stats']['rejects'].'</span></div>';
             if ( $stats['general']['stats']['complaints'] ) echo '<div class="stat_box warning">'.__('Complaints:', 'wpmandrill').'<br/><span>'.$stats['general']['stats']['complaints'].'</span></div>';
@@ -142,14 +142,14 @@ function wpm_showTooltip(x, y, contents) {
 	
 	
 ?>
-var hvolume     = [<?=implode(',',$hvolume);?>];
-var hopenrates  = [<?=implode(',',$horate);?>];
-var hclickrates = [<?=implode(',',$hcrate);?>]
+var hvolume     = [<?php echo implode(',',$hvolume);?>];
+var hopenrates  = [<?php echo implode(',',$horate);?>];
+var hclickrates = [<?php echo implode(',',$hcrate);?>]
 		
-var dvolume     = [<?=implode(',',$dvolume);?>];
-var dopenrates  = [<?=implode(',',$dorate);?>];
-var dclickrates = [<?=implode(',',$dcrate);?>]
-var dticks	    = [<?=implode(',',array_keys($stats['graph']['daily']['delivered']));?>]
+var dvolume     = [<?php echo implode(',',$dvolume);?>];
+var dopenrates  = [<?php echo implode(',',$dorate);?>];
+var dclickrates = [<?php echo implode(',',$dcrate);?>]
+var dticks	    = [<?php echo implode(',',array_keys($stats['graph']['daily']['delivered']));?>]
 jQuery(function () {
 	var previousPoint = null;
 	jQuery("#hourly_report_canvas").bind("plothover", function (event, pos, item) {
@@ -218,7 +218,7 @@ jQuery(function () {
 	 	        		    right: 100
 	 	        		}
 	 	           },
-	               xaxes: [ { ticks: [<?=implode(',',$hticks);?>] } ],
+	               xaxes: [ { ticks: [<?php echo implode(',',$hticks);?>] } ],
 	               yaxes: [ { min: 0, tickFormatter: percentageFormatter },
 	                        {
 	            	   			min: 0, 
@@ -250,7 +250,7 @@ jQuery(function () {
 	 	        		    right: 10
 	 	        		}
 	 	           },
-	               xaxes: [ { ticks: [<?=implode(',', $dticks);?>] } ],
+	               xaxes: [ { ticks: [<?php echo implode(',', $dticks);?>] } ],
 	               yaxes: [ { min: 0, tickFormatter: percentageFormatter },
 	                        {
 			     	   		  min: 0, 
@@ -262,11 +262,11 @@ jQuery(function () {
 		});
 });
 </script>
-<h3><?=$lit['hourly']['title']; ?></h3>
-<h4><?=$lit['subtitle']; ?></h4>
+<h3><?php echo $lit['hourly']['title']; ?></h3>
+<h4><?php echo $lit['subtitle']; ?></h4>
     <div id="hourly_report_canvas" style="height: 400px;"></div><br/><br/>
-<h3><?=$lit['daily']['title']; ?></h3>
-<h4><?=$lit['subtitle']; ?></h4>
+<h3><?php echo $lit['daily']['title']; ?></h3>
+<h4><?php echo $lit['subtitle']; ?></h4>
     <div id="daily_report_canvas" style="height: 400px;"></div>
     <h3><a href="http://mandrillapp.com/" target="_target"><?php _e('For more detailed statistics, please visit your Mandrill Dashboard','wpmandrill'); ?></a>.</h3>
 
