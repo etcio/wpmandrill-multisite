@@ -1,12 +1,12 @@
 .wrap h2 small {
     font-size: 10px;
 }
-.news_header {
+.mcnews_header {
     background: url("../images/rss_icon.gif") no-repeat scroll 0 0 transparent;
     padding-left: 30px;
     line-height: 20px;
 }
-.news {
+.mcnews {
     background: url("../images/FreddieHead.png") no-repeat bottom right #FFFFCC;
     border: 1px solid yellow;
     float: right;
@@ -18,7 +18,7 @@
 .mandrill {
     background: url("../images/MandrillHead.png") no-repeat bottom right #FFFFCC;
 }
-.news ul li a {
+.mcnews ul li a {
     color: #000;
 }
 

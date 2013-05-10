@@ -1,24 +1,24 @@
 <?php
 
-class Mandrill_Exception extends Exception {
-}
+class Mandrill_Exception extends Exception {}
 
 class Mandrill {
     const API_VERSION = '1.0';    
     const END_POINT = 'https://mandrillapp.com/api/';
     
     var $api;
+    var $output;
     
     // PHP 4.0
-    function Mandrill() {$this->__construct();}
+    function Mandrill($api) { $this->__construct($api); }
     
     // PHP 5.0
     function __construct($api) {
         if ( empty($api) ) throw new Mandrill_Exception('Invalid API key');
         try {
         
-            $response = $this->request('users/ping', array( 'key' => $api ) );        
-            if ( $response != 'PONG!' ) throw new Mandrill_Exception('Invalid API key');
+            $response = $this->request('users/ping2', array( 'key' => $api ) );        
+            if ( !isset($response['PING']) || $response['PING'] != 'PONG!' ) throw new Mandrill_Exception('Invalid API key');
             
             $this->api = $api;
             
@@ -42,6 +42,8 @@ class Mandrill {
 		if( !isset($args['key']) )
 			$args['key'] = $this->api;
 
+        $this->output = $output;
+        
 		$api_version = self::API_VERSION;
 		$dot_output = ('json' == $output) ? '' : ".{$output}";
 
@@ -50,8 +52,20 @@ class Mandrill {
 		switch ($http) {
 
 			case 'GET':
+                //some distribs change arg sep to &amp; by default
+                $sep_changed = false;
+                if (ini_get("arg_separator.output")!="&"){
+                    $sep_changed = true;
+                    $orig_sep = ini_get("arg_separator.output");
+                    ini_set("arg_separator.output", "&");
+                }
 
 				$url .= '?' . http_build_query($args);
+				
+                if ($sep_changed){
+                    ini_set("arg_separator.output", $orig_sep);
+                }
+                
 				$response = $this->http_request($url, array(),'GET');
 				break;
 
@@ -80,14 +94,10 @@ class Mandrill {
 		}		
 
 		if( 200 == $response_code ) {
-
 			return $body;
-		}
-		else {
-
-			$message = isset( $body['message'] ) ? $body['message'] : '' ;
-
-			throw new Mandrill_Exception($message . ' - ' . $body, $response_code);
+		} else {
+			error_log("wpMandrill Error: Error {$body['code']}: {$body['message']}");
+			throw new Mandrill_Exception( "wpMandrill Error: {$body['code']}: {$body['message']}", $response_code);
 		}
 	}
 
@@ -388,37 +398,118 @@ class Mandrill {
 	}
 
     function http_request($url, $fields = array(), $method = 'POST') {
-        if( !ini_get('safe_mode') ){
-            set_time_limit(2 * 60);
-        }
 
         if ( !in_array( $method, array('POST','GET') ) ) $method = 'POST';
         if ( !isset( $fields['key']) ) $fields['key'] = $this->api;
 
-        $fields = is_array($fields) ? http_build_query($fields) : $fields;
-		if ( defined('WP_DEBUG') && WP_DEBUG !== false ) {
-			error_log( "\nMandrill::http_request: URL: $url - Fields: $fields\n" );
-		}
+        //some distribs change arg sep to &amp; by default
+        $sep_changed = false;
+        if (ini_get("arg_separator.output")!="&"){
+            $sep_changed = true;
+            $orig_sep = ini_get("arg_separator.output");
+            ini_set("arg_separator.output", "&");
+        }
 
-        $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            
-            curl_setopt($ch, CURLOPT_POST, $method == 'POST');
-            
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-            
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2 * 60 * 1000);
-            
-            $response   = curl_exec($ch);
-            $info       = curl_getinfo($ch);
-            $error      = curl_error($ch);
-            
-        curl_close($ch);
+        $fields = is_array($fields) ? http_build_query($fields) : $fields;
         
-      return array('header' => $info, 'body' => $response, 'error' => $error);
+        if ($sep_changed) {
+            ini_set("arg_separator.output", $orig_sep);
+        }
+        
+        if( function_exists('curl_init') && function_exists('curl_exec') ) {
+        
+            if( !ini_get('safe_mode') ){
+                set_time_limit(2 * 60);
+            }
+            
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                
+                curl_setopt($ch, CURLOPT_POST, $method == 'POST');
+                
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	// @Bruno Braga:
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);	//		Thanks for the hack!
+				
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+                curl_setopt($ch, CURLOPT_HEADER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2 * 60 * 1000);
+                
+                $response   = curl_exec($ch);
+                $info       = curl_getinfo($ch);
+                $error      = curl_error($ch);
+                
+            curl_close($ch);
+            
+        } elseif( function_exists( 'fsockopen' ) ) {
+	        $parsed_url = parse_url($url);
+
+	        $host = $parsed_url['host'];
+	        if ( isset($parsed_url['path']) ) {
+		        $path = $parsed_url['path'];
+	        } else {
+		        $path = '/';
+	        }
+
+            $params = '';
+            if (isset($parsed_url['query'])) {
+                $params = $parsed_url['query'] . '&' . $fields;
+            } elseif ( trim($fields) != '' ) {
+                $params = $fields;
+            }
+
+	        if (isset($parsed_url['port'])) {
+		        $port = $parsed_url['port'];
+	        } else {
+		        $port = ($parsed_url['scheme'] == 'https') ? 443 : 80;
+	        }
+
+	        $response = false;
+
+	        $errno    = '';
+	        $errstr   = '';
+            ob_start();
+            $fp = fsockopen( 'ssl://'.$host, $port, $errno, $errstr, 5 );
+
+            if( $fp !== false ) {
+                stream_set_timeout($fp, 30);
+                
+                $payload = "$method $path HTTP/1.0\r\n" .
+		            "Host: $host\r\n" . 
+		            "Connection: close\r\n"  .
+                    "Content-type: application/x-www-form-urlencoded\r\n" .
+                    "Content-length: " . strlen($params) . "\r\n" .
+                    "Connection: close\r\n\r\n" .
+                    $params;
+                fwrite($fp, $payload);
+                stream_set_timeout($fp, 30);
+                
+                $info = stream_get_meta_data($fp);
+                while ((!feof($fp)) && (!$info["timed_out"])) {
+                    $response .= fread($fp, 4096);
+                    $info = stream_get_meta_data($fp);
+                }
+                
+                fclose( $fp );
+                ob_end_clean();
+                
+                list($headers, $response) = explode("\r\n\r\n", $response, 2);
+
+                if(ini_get("magic_quotes_runtime")) $response = stripslashes($response);
+    	        $info = array('http_code' => 200);
+            } else {
+                ob_end_clean();
+    	        $info = array('http_code' => 500);
+    	        throw new Exception($errstr,$errno);
+            }
+            $error = '';
+        } else {
+            throw new Mandrill_Exception("No valid HTTP transport found", -99);
+        }
+        
+        return array('header' => $info, 'body' => $response, 'error' => $error);
     }
     
     static function getAttachmentStruct($path) {
@@ -434,7 +525,7 @@ class Mandrill {
             if ( !function_exists('get_magic_quotes') ) {
                 function get_magic_quotes() { return false; }
             }
-            if ( !function_exists('st_magic_quotes') ) {
+            if ( !function_exists('set_magic_quotes') ) {
                 function set_magic_quotes($value) { return true;}
             }
             
@@ -448,17 +539,15 @@ class Mandrill {
             
             if (strnatcmp(phpversion(),'6') >= 0) set_magic_quotes_runtime($magic_quotes);
             
-            if (strnatcmp(phpversion(),'5.3') >= 0) {
+            $mime_type = '';
+			if (strnatcmp(phpversion(),'5.3') >= 0) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime_type = finfo_file($finfo, $path);
-            } else {
+            } elseif ( function_exists('mime_content_type') ) {
                 $mime_type = mime_content_type($path);
             }
-            
-            if ( !Mandrill::isValidContentType($mime_type) ) 
-                throw new Exception($mime_type.' is not a valid content type (it should be '.implode('*,', self::getValidContentTypes() ).').');
 
-            $struct['type']     = $mime_type;
+            if ( !empty($mime_type) ) $struct['type']     = $mime_type;            
             $struct['name']     = $filename;
             $struct['content']  = $file_buffer;
 
@@ -470,13 +559,8 @@ class Mandrill {
     }
     
     static function isValidContentType($ct) {
-        $valids = self::getValidContentTypes();
-        
-        foreach ( $valids as $vct ) {
-            if ( strpos($ct, $vct) !== false )  return true;
-        }
-
-        return false;
+        // Now Mandrill accepts any content type. 
+        return true;
     }
     
     static function getValidContentTypes() {
@@ -484,6 +568,8 @@ class Mandrill {
                   'image/',
                   'text/',
                   'application/pdf',
+        		  'audio/',
+        		  'video/'
               );
     }
 }
