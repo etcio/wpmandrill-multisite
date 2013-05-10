@@ -43,13 +43,19 @@ In order to use this plugin, you have to provide one of your Mandrill API keys. 
 
 = Do I need a MailChimp account? =
 
-Not anymore!
+Nop.
 
-= Is all email routed through Mandrill? =
+= Are all emails routed through Mandrill? =
 
 Yes. We try to send every single email sent through your WordPress installation. We also try to process your headers and attachments.
 
 If the sending fails for any reason, the plugin will try to send it again using the WordPress wp_mail function.
+
+= What if I need to send some of my emails using the native wp_mail() function?
+
+Use the mandrill_payload filter and add a new parameter called 'force_native' to the $message variable, and set it to true:
+
+$message['force_native'] = true;
 
 = My emails are broken and show weird CSS code =
 
@@ -57,7 +63,9 @@ In version 1.09, we added a setting that allows you to tell the plugin if you wa
 
 = Is there any way to check what's going on? =
 
-If you set the WP_DEBUG constant (defined in your wp-config.php file) to true, you'll see some messages added by the plugin in key parts of the process.
+If we couldn't send your email through Mandrill, we'll try to leave the Mandrill response in your server's log so that's your first stop.
+
+Additionaly, if you set the WP_DEBUG constant (defined in your wp-config.php file) to true, you'll see some messages added by the plugin in key parts of the process.
 
 = I am getting an Invalid API Key message and I'm sure my API is valid!
 
@@ -91,7 +99,11 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 4. Dashboard widget Settings
 
 == Changelog ==
-
+= 1.28 =
+* ADDED: If you want to fall back some of your emails to the native wp_mail function, now you can do it by using the mandrill_payload filter and setting a parameter called 'force_native' to true.
+* REMOVED: Mime type checking on attachments. 
+* ADDED: Sending MIME TYPE of attachments to Mandrill only when wpMandrill is able to find it.  
+ 
 = 1.27 =
 * FIXED: Removing php short tags. ** Thanks Kailey Lampert! ** 
 

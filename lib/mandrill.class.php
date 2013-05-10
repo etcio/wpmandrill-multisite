@@ -96,7 +96,8 @@ class Mandrill {
 		if( 200 == $response_code ) {
 			return $body;
 		} else {
-			throw new Mandrill_Exception( "HTTP Code $response_code: $url", $response_code);
+			error_log("wpMandrill Error: Error {$body['code']}: {$body['message']}");
+			throw new Mandrill_Exception( "wpMandrill Error: {$body['code']}: {$body['message']}", $response_code);
 		}
 	}
 
@@ -538,17 +539,15 @@ class Mandrill {
             
             if (strnatcmp(phpversion(),'6') >= 0) set_magic_quotes_runtime($magic_quotes);
             
-            if (strnatcmp(phpversion(),'5.3') >= 0) {
+            $mime_type = '';
+			if (strnatcmp(phpversion(),'5.3') >= 0) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime_type = finfo_file($finfo, $path);
-            } else {
+            } elseif ( function_exists('mime_content_type') ) {
                 $mime_type = mime_content_type($path);
             }
-            
-            if ( !Mandrill::isValidContentType($mime_type) ) 
-                throw new Exception($mime_type.' is not a valid content type (it should be '.implode('*,', self::getValidContentTypes() ).').');
 
-            $struct['type']     = $mime_type;
+            if ( !empty($mime_type) ) $struct['type']     = $mime_type;            
             $struct['name']     = $filename;
             $struct['content']  = $file_buffer;
 
