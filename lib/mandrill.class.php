@@ -416,6 +416,8 @@ class Mandrill {
             ini_set("arg_separator.output", $orig_sep);
         }
         
+        $useragent = wpMandrill::getUserAgent();
+        
         if( function_exists('curl_init') && function_exists('curl_exec') ) {
         
             if( !ini_get('safe_mode') ){
@@ -430,8 +432,8 @@ class Mandrill {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 
 				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	// @Bruno Braga:
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);	//		Thanks for the hack!
-				
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);	//	Thanks for the hack!
+				curl_setopt($ch, CURLOPT_USERAGENT,$useragent);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -479,6 +481,7 @@ class Mandrill {
                 $payload = "$method $path HTTP/1.0\r\n" .
 		            "Host: $host\r\n" . 
 		            "Connection: close\r\n"  .
+                	"User-Agent: $useragent\r\n" .
                     "Content-type: application/x-www-form-urlencoded\r\n" .
                     "Content-length: " . strlen($params) . "\r\n" .
                     "Connection: close\r\n\r\n" .

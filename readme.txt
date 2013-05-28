@@ -99,6 +99,12 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 4. Dashboard widget Settings
 
 == Changelog ==
+= 1.29 =
+* ADDED: wp_mail, wp_mail_from, and wp_mail_from_name filters. ** Thanks Mike Little! **
+* ADDED: Support for "important" emails.
+* UPDATED: Wordpress wp_mail function code.
+* ADDED: wpMandrill User-Agent 
+  
 = 1.28 =
 * ADDED: If you want to fall back some of your emails to the native wp_mail function, now you can do it by using the mandrill_payload filter and setting a parameter called 'force_native' to true.
 * REMOVED: Mime type checking on attachments. 
