@@ -99,6 +99,9 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 4. Dashboard widget Settings
 
 == Changelog ==
+= 1.30 =
+* FIXED: Multiples To: recipients where not being handling correctly. 
+
 = 1.29 =
 * ADDED: wp_mail, wp_mail_from, and wp_mail_from_name filters. ** Thanks Mike Little! **
 * ADDED: Support for "important" emails.
