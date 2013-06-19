@@ -543,14 +543,14 @@ class Mandrill {
             if (strnatcmp(phpversion(),'6') >= 0) set_magic_quotes_runtime($magic_quotes);
             
             $mime_type = '';
-			if (strnatcmp(phpversion(),'5.3') >= 0) {
+			if ( function_exists('finfo_open') && function_exists('finfo_file') ) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime_type = finfo_file($finfo, $path);
             } elseif ( function_exists('mime_content_type') ) {
                 $mime_type = mime_content_type($path);
             }
 
-            if ( !empty($mime_type) ) $struct['type']     = $mime_type;            
+            if ( !empty($mime_type) ) $struct['type']     = $mime_type;
             $struct['name']     = $filename;
             $struct['content']  = $file_buffer;
 

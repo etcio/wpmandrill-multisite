@@ -99,6 +99,9 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 4. Dashboard widget Settings
 
 == Changelog ==
+= 1.31 =
+* FIXED: Some PHP 5.3 installations don't have the finfo_open available so we're now checking for the function instead of the PHP version 
+
 = 1.30 =
 * FIXED: Multiples To: recipients where not being handling correctly. 
 
