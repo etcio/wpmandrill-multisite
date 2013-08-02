@@ -9,9 +9,6 @@ class Mandrill {
     var $api;
     var $output;
     
-    // PHP 4.0
-    function Mandrill($api) { $this->__construct($api); }
-    
     // PHP 5.0
     function __construct($api) {
         if ( empty($api) ) throw new Mandrill_Exception('Invalid API key');
@@ -27,7 +24,10 @@ class Mandrill {
         }
     }
     
-	/**
+    // PHP 4.0
+    function Mandrill($api) { $this->__construct($api); }
+    
+    /**
 	 * Work horse. Every API call use this function to actually make the request to Mandrill's servers.
 	 *
 	 * @link https://mandrillapp.com/api/docs/

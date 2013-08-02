@@ -2,7 +2,7 @@
 Contributors: MC_Will
 Tags: mandrill, mailchimp, transactional email, email, email reliability, smtp, wp_mail, email templates
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.5.1
 Stable tag: trunk
 License: GPLv2
 
@@ -99,6 +99,10 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 4. Dashboard widget Settings
 
 == Changelog ==
+= 1.32 =
+* FIXED: Reordering constructors of Mandrill class to prevent the "Redefining already defined constructor" message
+* UPDATE: Favoring self:: instead of wpMandrill:: 
+
 = 1.31 =
 * FIXED: Some PHP 5.3 installations don't have the finfo_open available so we're now checking for the function instead of the PHP version 
 
