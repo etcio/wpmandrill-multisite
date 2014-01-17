@@ -108,7 +108,7 @@ If your account has more than 20 senders registered or more than 40 tags used, t
 
 == Changelog ==
 = 1.33 =
-* ADDED: Logging messages to trace bug where the stats don't get updated 
+* ADDED: Logging messages to trace a bug where the stats are not getting updated 
 * FIXED: Order of preference for tags.
 * ADDED: Support for css inlining, recipient preservation, whether or not to have the view content link in your Mandrill dashboard, tracking, signing, and return-path domains, using subaccounts, per recipient metadata, pool of ips, email scheduling, and asynchronous sending in wpMandrill::mail(). 
 * REMOVED: The concept of 'verified domains' was completely removed from the plugin.  
