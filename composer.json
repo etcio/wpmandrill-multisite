@@ -1,0 +1,9 @@
+{
+  "name": "np_wp_plugin/wpmandrill-multisite",
+  "type": "wordpress-plugin",
+  "description": "wpMandrill for Multisite",
+  "keywords": ["plugin","wordpress","mandrill","multisite"],
+  "require": {
+    "composer/installers": "~1.0.6"
+  }
+}
