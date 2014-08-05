@@ -1073,7 +1073,7 @@ jQuery(document).bind( 'ready', function() {
 	}
 	
 	static function addDashboardWidgets() {
-		if (!current_user_can('manage_options')) return;
+		if (!is_super_admin()) return;
 		
 	    self::getConnected();
 	    if ( !self::isConnected() ) return;
